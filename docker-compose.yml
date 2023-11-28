@@ -1,0 +1,38 @@
+version: '3.3'
+
+
+services:
+
+  db:
+    image: postgres:15.3
+    volumes:
+      - "db:/var/lib/postgresql/data/"
+    env_file: .env
+
+  server:
+    build: ./backend
+    env_file: .env
+    depends_on:
+      - db
+    volumes:
+      - 'static:/srv/server/static_intermediate'
+      - "./backend:/srv/server"
+    ports:
+      - 8000:8000
+
+  nginx:
+    build:
+      context: ./nginx
+    image: nginx
+    volumes:
+      - 'static:/srv/server/static_intermediate'
+    env_file:
+      - .env
+    environment:
+      DOLLAR: "$$"
+      COMMENT_EXPIRES: "#"
+
+volumes:
+  db:
+  static:
+

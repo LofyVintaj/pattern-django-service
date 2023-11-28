@@ -1,2 +1,6 @@
-# pattern-django-service
-An example of a ready-made Django service
+
+#### Сборка проекта 
+
+```shell
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
